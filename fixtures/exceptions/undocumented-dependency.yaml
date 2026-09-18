@@ -1,0 +1,4 @@
+deptrac:
+  skip_violations:
+    Modules\Broken\Domain\Policy:
+      - Modules\Catalog\Domain\EventStatus

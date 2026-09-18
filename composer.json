@@ -1,0 +1,39 @@
+{
+  "name": "maeandrew/architecture-governance-demo",
+  "description": "Independent reference project for architecture governance in a PHP application.",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^8.3"
+  },
+  "require-dev": {
+    "deptrac/deptrac": "^2.0",
+    "pestphp/pest": "^3.0",
+    "phpstan/phpstan": "^2.0",
+    "symfony/yaml": "^7.0",
+    "symfony/var-dumper": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Modules\\": "Modules/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "pest",
+    "test:arch": "pest --testsuite=Architecture",
+    "test:unit": "pest --testsuite=Unit",
+    "test:feature": "pest --testsuite=Feature",
+    "analyze": "phpstan analyse --memory-limit=2G",
+    "deptrac": "deptrac analyse --no-cache --fail-on-uncovered --report-uncovered"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}

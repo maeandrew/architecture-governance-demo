@@ -1,0 +1,82 @@
+deptrac:
+  layers:
+    - name: SharedContracts
+      collectors:
+        - type: classLike
+          value: 'Modules\\Shared\\Contracts\\.*'
+    - name: SharedInternal
+      collectors:
+        - type: classLike
+          value: 'Modules\\Shared\\(Domain|Infrastructure|ValueObjects)\\.*'
+    - name: CatalogContracts
+      collectors:
+        - type: classLike
+          value: 'Modules\\Catalog\\Contracts\\.*'
+    - name: CatalogInternal
+      collectors:
+        - type: classLike
+          value: 'Modules\\Catalog\\(Domain|Services|Http|Actions|Infrastructure)\\.*'
+    - name: BookingContracts
+      collectors:
+        - type: classLike
+          value: 'Modules\\Booking\\Contracts\\.*'
+    - name: BookingInternal
+      collectors:
+        - type: classLike
+          value: 'Modules\\Booking\\(Domain|Actions|Services|Http|Infrastructure)\\.*'
+    - name: BillingContracts
+      collectors:
+        - type: classLike
+          value: 'Modules\\Billing\\Contracts\\.*'
+    - name: BillingInternal
+      collectors:
+        - type: classLike
+          value: 'Modules\\Billing\\(Domain|Actions|Services|Http|Infrastructure)\\.*'
+    - name: IdentityContracts
+      collectors:
+        - type: classLike
+          value: 'Modules\\Identity\\Contracts\\.*'
+    - name: IdentityInternal
+      collectors:
+        - type: classLike
+          value: 'Modules\\Identity\\(Domain|Services|Http|Actions|Infrastructure)\\.*'
+  ruleset:
+    SharedContracts: ~
+    SharedInternal:
+      - SharedContracts
+    CatalogContracts:
+      - SharedContracts
+      - SharedInternal
+    CatalogInternal:
+      - CatalogContracts
+      - SharedContracts
+      - SharedInternal
+    BookingContracts:
+      - CatalogContracts
+      - IdentityContracts
+      - SharedContracts
+      - SharedInternal
+    BookingInternal:
+      - BookingContracts
+      - CatalogContracts
+      - IdentityContracts
+      - SharedContracts
+      - SharedInternal
+    BillingContracts:
+      - BookingContracts
+      - IdentityContracts
+      - SharedContracts
+      - SharedInternal
+    BillingInternal:
+      - BillingContracts
+      - BookingContracts
+      - IdentityContracts
+      - SharedContracts
+      - SharedInternal
+    IdentityContracts:
+      - SharedContracts
+      - SharedInternal
+    IdentityInternal:
+      - IdentityContracts
+      - SharedContracts
+      - SharedInternal

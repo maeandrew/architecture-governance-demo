@@ -1,0 +1,54 @@
+name: Architecture
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    concurrency:
+      group: architecture-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Validate Composer manifest
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run architecture tests
+        run: vendor/bin/pest --testsuite=Architecture
+
+      - name: Run Deptrac
+        run: vendor/bin/deptrac analyse --no-cache --fail-on-uncovered --report-uncovered
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --memory-limit=2G
+
+      - name: Run unit and feature tests
+        run: vendor/bin/pest --testsuite=Unit && vendor/bin/pest --testsuite=Feature
+
+      - name: Verify intentional violation is detected
+        run: ./bin/assert-deptrac-fails

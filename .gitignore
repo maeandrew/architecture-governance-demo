@@ -1,0 +1,5 @@
+/vendor/
+/.deptrac.cache
+/.phpstan/
+/.phpunit.cache/
+/.ddev/.gitignore

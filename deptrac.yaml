@@ -1,0 +1,12 @@
+imports:
+  - deptrac.layers.yaml
+
+deptrac:
+  paths:
+    - Modules
+  skip_violations:
+    # ADR-0002: Booking evaluates Catalog availability through EventStatus.
+    Modules\Booking\Domain\BookingPolicy:
+      - Modules\Catalog\Domain\EventStatus
+    Modules\Catalog\Contracts\EventCatalogInterface:
+      - Modules\Catalog\Domain\EventStatus

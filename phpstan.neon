@@ -1,0 +1,10 @@
+parameters:
+    level: max
+    paths:
+        - Modules
+        - tests
+        - bin
+    excludePaths:
+        - fixtures/violations/*
+    tmpDir: .phpstan
+    treatPhpDocTypesAsCertain: false

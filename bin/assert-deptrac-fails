@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$PROJECT_ROOT"
+LOG_FILE="$(mktemp)"
+cleanup(){
+  rm -f "$LOG_FILE"
+}
+trap cleanup EXIT
+
+if vendor/bin/deptrac --config-file="$PROJECT_ROOT/fixtures/violations/deptrac.violations.yaml" analyse --no-cache --fail-on-uncovered --report-uncovered >"$LOG_FILE" 2>&1; then
+  echo "Expected Deptrac to fail for the intentional violation fixture." >&2
+  cat "$LOG_FILE" >&2
+  exit 1
+fi
+
+EXPECTED='Modules\Billing\Domain\InvoiceFactory must not depend on Modules\Booking\Domain\BookingState'
+if ! grep -Fq "$EXPECTED" "$LOG_FILE"; then
+  echo "Expected violation output to include the forbidden dependency message." >&2
+  cat "$LOG_FILE" >&2
+  exit 1
+fi
+
+echo "Detected intentional violation:"
+sed -n '1,120p' "$LOG_FILE"

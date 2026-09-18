@@ -1,0 +1,6 @@
+imports:
+  - ../../deptrac.layers.yaml
+
+deptrac:
+  paths:
+    - src
