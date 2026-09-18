@@ -6,6 +6,8 @@ This repository is a small, open-source reference implementation for enforcing m
 
 The value here is not a production app; it is a reproducible demonstration of clear architectural contracts, explicit exceptions, and automated enforcement.
 
+Unlike baseline-based setups that freeze existing violations in bulk, every exception here is an explicit, ADR-backed class pair, and CI verifies that each one stays documented.
+
 ## Module map
 
 ```text
